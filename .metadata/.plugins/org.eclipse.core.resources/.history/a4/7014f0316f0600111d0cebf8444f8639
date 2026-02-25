@@ -1,0 +1,141 @@
+package Demo;
+
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.time.Duration;
+import java.util.Arrays;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+
+public class DragandDropW3CActions {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+		  AndroidDriver driver = null;
+
+	        
+          UiAutomator2Options options = new UiAutomator2Options();
+ 
+     
+          options.setPlatformName("Android");
+          options.setAutomationName("UiAutomator2");
+          options.setDeviceName("RMX3853");
+          options.setPlatformVersion("15");
+
+       //   io.appium.android.apis/io.appium.android.apis.view.Controls1
+       //   options.setAppPackage("io.appium.android.apis");
+       //   options.setAppActivity("io.appium.android.apis.view.Controls1");
+          options.setAppPackage("io.appium.android.apis");
+          options.setAppActivity(".ApiDemos");
+
+          options.setAutoGrantPermissions(true);
+          options.setIgnoreHiddenApiPolicyError(true);
+
+          // ✅ CORRECT for Dialer
+          options.setNoReset(true);
+          options.setFullReset(false);
+          options.setCapability("appium:forceAppLaunch", true);
+          
+          URL url = URI.create("http://127.0.0.1:4723/").toURL();
+          driver = new AndroidDriver(url, options);
+          
+          
+          Thread.sleep(3000);
+          System.out.println("API Demos app launched");
+
+          
+       // Views
+          driver.findElement(By.xpath("//android.widget.TextView[@text='Views']")).click();
+          
+          
+        //select Drag and Drop option
+          driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"Drag and Drop\"]")).click();
+         
+          
+        //find drag and drop
+          WebElement source = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
+          
+          
+          WebElement target = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_2"));
+          
+          //Find center of source and target of web element
+          Point sourceElementCenter = getCenter(source);
+          Point targetElementCenter = getCenter(target);
+          
+          //PointerInput class to create a sequence of actions
+          //that move the pointer to the center of element
+          //press down on the element, and then release the element 
+          
+          
+          
+          // Create finger input
+          PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+          
+          // Create action sequence
+          Sequence sequence = new Sequence(finger1, 1)
+          
+          //move finger to the starting position
+          .addAction (finger1.createPointerMove (Duration.ZERO, PointerInput.Origin.viewport(), sourceElementCenter))
+          
+          
+        //finger coming down to contact with screen
+			.addAction (finger1.createPointerDown(PointerInput.MouseButton. LEFT.asArg()))
+			
+			.addAction(new Pause(finger1, Duration.ofMillis(588)))
+			
+			//move finger to the end position
+			.addAction(finger1.createPointerMove(Duration.ofMillis(588), PointerInput.Origin.viewport(), targetElementCenter))
+			
+			//move the finger up
+			.addAction (finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+	
+	//perform sequence of actions
+	//driver.perform(Collections.singletonList(sequence));
+//
+	driver.perform(Arrays.asList(sequence));
+	Thread.sleep(2000);
+	
+	driver.quit(); //close session
+//	driver.terminateApp("io.appium.android.apis"); 
+          
+          
+
+	}
+
+	
+	private static Point getCenter(WebElement element) 
+	{
+		
+		//get location of the  element 
+		Point location = element.getLocation();
+		
+		//get dimension (height & width of the element)
+		Dimension size = element.getSize();
+		
+		//center point
+		Point center = new Point (location.x + size.width/2, location.y + size.height/2);
+		
+		return center;
+		
+	}
+	
+}

@@ -1,0 +1,199 @@
+package tests;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+import org.apache.commons.io.FileUtils;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class BaseClass {
+	
+	AndroidDriver driver;
+	public static ExtentReports extent;
+    public static ExtentTest test;
+	
+    
+    @BeforeSuite
+    public void setupReport() {
+
+    	String path = System.getProperty("user.dir") + "/reports/ExtentReport.html";
+
+        ExtentSparkReporter spark = new ExtentSparkReporter(path);
+        extent = new ExtentReports();
+        extent.attachReporter(spark);
+
+        extent.setSystemInfo("Tester", "Kunal");
+        extent.setSystemInfo("OS", "Windows");
+    }
+    
+    
+    public String captureScreenshot(String testName) throws IOException {
+
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+
+        String path = System.getProperty("user.dir") 
+                    + "/reports/screenshots/" 
+                    + testName + "_" + System.currentTimeMillis() + ".png";
+
+        File destination = new File(path);
+        destination.getParentFile().mkdirs();  // create folder if not exists
+        FileUtils.copyFile(source, destination);
+
+        return path;
+    }
+    
+    /*
+	@BeforeTest
+	public void setup() throws MalformedURLException
+	{
+	
+		//---------- Appium Setup ----------
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setDeviceName("RMX3853");
+	//	options.setPlatformVersion("15");
+		options.setAutomationName("UiAutomator2");
+		
+		options.setCapability("appium:appPackage", "com.android.chrome");
+		options.setCapability("appium:appActivity", "com.google.android.apps.chrome.Main");
+		options.setCapability("appium:noReset", true);
+		options.setCapability("appium:fullReset", false);
+		options.setCapability("appium:newCommandTimeout", 60);
+		options.setCapability("appium:chromedriverAutodownload", true);
+
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+		driver = new AndroidDriver(url, options);
+					
+	}
+	
+    // Hybrid Context Switch
+    public void switchToWebView() {
+        for (String context : driver.getContextHandles()) {
+            if (context.contains("WEBVIEW")) {
+                driver.context(context);
+                break;
+            }
+        }
+    }
+    
+        */
+    
+    @BeforeClass
+    public void setup(Method method) throws MalformedURLException {
+
+        // Create Extent Test FIRST
+        test = extent.createTest(method.getName());
+
+        // ---------- Appium Setup ----------
+        UiAutomator2Options options = new UiAutomator2Options();
+
+        options.setPlatformName("Android");
+        options.setDeviceName("RMX3853");
+        options.setAutomationName("UiAutomator2");
+
+        options.setCapability("appium:appPackage", "com.android.chrome");
+        options.setCapability("appium:appActivity", "com.google.android.apps.chrome.Main");
+        options.setCapability("appium:noReset", true);
+        options.setCapability("appium:fullReset", false);
+        options.setCapability("appium:newCommandTimeout", 60);
+        options.setCapability("appium:chromedriverAutodownload", true);
+
+        URL url = URI.create("http://127.0.0.1:4723/").toURL();
+        driver = new AndroidDriver(url, options);
+    }
+
+    
+    // Hybrid Context Switch
+    public void switchToWebView() {
+        for (String context : driver.getContextHandles()) {
+            if (context.contains("WEBVIEW")) {
+                driver.context(context);
+                break;
+            }
+        }
+    }
+      
+    
+    
+    public void openNewTab() {
+
+        // Open new tab using JavaScript
+        driver.executeScript("window.open('about:blank','_blank');");
+
+        // Switch to the newest tab
+        for (String handle : driver.getWindowHandles()) {
+            driver.switchTo().window(handle);
+        }
+
+        switchToWebView();
+    }
+
+    
+    
+    @BeforeMethod
+    public void createTest(Method method) {
+      //  test = extent.createTest(method.getName());
+    }
+    
+    
+    @AfterMethod
+    public void tearDown(ITestResult result) throws IOException {
+
+        if (result.getStatus() == ITestResult.FAILURE) {
+
+            String path = captureScreenshot(result.getMethod().getMethodName());
+
+            test.fail("Test Failed",
+                    MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+
+            String path = captureScreenshot(result.getMethod().getMethodName());
+
+            test.pass("Test Passed",
+                    MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+        }
+
+       
+    }
+
+    @AfterClass
+    public void closerDriver()
+    {
+    	 if (driver != null) {
+             driver.quit();
+         }
+    }
+    
+    @AfterSuite
+    public void tearDownReport() {
+        extent.flush();   // 🔥 This ensures report always gets created
+    }
+	
+
+}

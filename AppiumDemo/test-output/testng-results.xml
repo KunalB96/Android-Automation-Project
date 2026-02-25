@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-02-13T22:07:31 IST" name="MobileWebSuite" finished-at="2026-02-13T22:08:00 IST" duration-ms="29241">
+    <groups>
+    </groups>
+    <test started-at="2026-02-13T22:07:31 IST" name="RunSpecificMethods" finished-at="2026-02-13T22:08:00 IST" duration-ms="29241">
+      <class name="tests.SearchTest">
+        <test-method is-config="true" signature="setupReport()[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:31 IST" name="setupReport" finished-at="2026-02-13T22:07:31 IST" duration-ms="315" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupReport -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:31 IST" name="setup" finished-at="2026-02-13T22:07:37 IST" duration-ms="6109" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method is-config="true" signature="createTest(java.lang.reflect.Method)[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:37 IST" name="createTest" finished-at="2026-02-13T22:07:37 IST" duration-ms="15" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.SearchTest.Test1() throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createTest -->
+        <test-method signature="Test1()[pri:1, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:37 IST" name="Test1" finished-at="2026-02-13T22:07:45 IST" duration-ms="8011" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Test1 -->
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:45 IST" name="tearDown" finished-at="2026-02-13T22:07:50 IST" duration-ms="4671" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Test1 status=SUCCESS method=SearchTest.Test1()[pri:1, instance:tests.SearchTest@707194ba] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="createTest(java.lang.reflect.Method)[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:50 IST" name="createTest" finished-at="2026-02-13T22:07:50 IST" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void tests.SearchTest.Test2() throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createTest -->
+        <test-method signature="Test2()[pri:2, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:50 IST" name="Test2" finished-at="2026-02-13T22:07:54 IST" duration-ms="4043" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Test2 -->
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:07:54 IST" name="tearDown" finished-at="2026-02-13T22:08:00 IST" duration-ms="5582" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Test2 status=SUCCESS method=SearchTest.Test2()[pri:2, instance:tests.SearchTest@707194ba] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="closerDriver()[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:08:00 IST" name="closerDriver" finished-at="2026-02-13T22:08:00 IST" duration-ms="746" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closerDriver -->
+        <test-method is-config="true" signature="tearDownReport()[pri:0, instance:tests.SearchTest@707194ba]" started-at="2026-02-13T22:08:00 IST" name="tearDownReport" finished-at="2026-02-13T22:08:01 IST" duration-ms="492" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownReport -->
+      </class> <!-- tests.SearchTest -->
+    </test> <!-- RunSpecificMethods -->
+  </suite> <!-- MobileWebSuite -->
+</testng-results>

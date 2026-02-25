@@ -1,0 +1,91 @@
+package Demo;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+
+
+public class AutomateDialer1 {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setAutomationName("UiAutomator2");
+		options.setDeviceName("RMX3853");
+		options.setPlatformVersion("15");
+
+		// Realme Dialer
+		options.setAppPackage("com.oplus.dialer");
+		options.setAppActivity("com.android.contacts.DialtactsActivityAlias");
+		options.setAppWaitActivity("*");
+		options.setAutoGrantPermissions(true);
+		options.setNoReset(true);
+		options.setFullReset(false);
+		options.setAutoGrantPermissions(true);
+		options.setIgnoreHiddenApiPolicyError(true);
+
+   //fcd7aba u0 com.oplus.dialer/com.android.contacts.DialtactsActivityAlias
+		// Try this URL first
+	//	URL url = new URL("http://127.0.0.1:4723/");
+		
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+
+		// If 404, use:
+		// URL url = new URL("http://127.0.0.1:4723/wd/hub");
+
+		AndroidDriver driver = new AndroidDriver(url, options);
+	        
+	        Thread.sleep(5000);
+
+			System.out.println("Application Started");
+
+			// click on numbers
+			//com.oplus.dialer:id/three
+			//Jio customer care no: 1800-88-99999
+			driver.findElement(By.id("com.oplus.dialer:id/one")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/eight")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/zero")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/zero")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/eight")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/eight")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/nine")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/nine")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/nine")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/nine")).click();
+			driver.findElement(By.id("com.oplus.dialer:id/nine")).click();
+			
+			
+			//click on call butoon to call from SIM1
+			driver.findElement(By.id("com.oplus.dialer:id/sim1_dial_btn")).click();
+			
+			
+			//click on call butoon to call from SIM2
+		//	driver.findElement(By.id("com.oplus.dialer:id/sim2_name")).click();
+
+			
+			 Thread.sleep(5000);
+			 
+			// End the call (works on Realme / ColorOS)
+			 driver.pressKey(new KeyEvent(AndroidKey.ENDCALL));
+			 
+			// Force close app in Realme / ColorOS
+			driver.terminateApp("com.oplus.dialer");
+
+			//Quit Session
+			driver.quit(); // close application 
+		
+
+	}
+
+}

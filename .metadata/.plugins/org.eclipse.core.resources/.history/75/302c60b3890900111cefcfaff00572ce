@@ -1,0 +1,9 @@
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources/features",
+        glue = {"StepsDefination", "tests"},
+        plugin = {"pretty"},
+        monochrome = true
+)
+public class TestRunner {
+}

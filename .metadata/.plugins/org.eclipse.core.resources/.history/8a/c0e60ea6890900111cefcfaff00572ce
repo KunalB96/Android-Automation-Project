@@ -1,0 +1,16 @@
+package Runner;
+
+import org.junit.runner.RunWith;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "D:\\Android Automation Project\\AppiumDemo\\src\\test\\resources\\features\\features.feature",
+        glue = {"StepsDefination", "tests"},
+        plugin = {"pretty"},
+        dryRun=false,
+        monochrome = true
+)
+public class TestRunner {
+}

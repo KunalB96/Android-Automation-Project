@@ -1,0 +1,109 @@
+package tests;
+
+import java.net.URI;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
+import com.aventstack.extentreports.*;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.cucumber.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
+
+public class CucumberBaseClass {
+
+    public static AndroidDriver driver;
+    public static ExtentReports extent;
+    public static ExtentTest test;
+
+    @Before
+    public void setup(Scenario scenario) throws Exception {
+
+        // Report setup (only once)
+        if (extent == null) {
+            String path = System.getProperty("user.dir") + "/reports/ExtentReport.html";
+            ExtentSparkReporter spark = new ExtentSparkReporter(path);
+            extent = new ExtentReports();
+            extent.attachReporter(spark);
+        }
+
+        test = extent.createTest(scenario.getName());
+
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setPlatformName("Android");
+        options.setDeviceName("RMX3853");
+        options.setAutomationName("UiAutomator2");
+
+        options.setCapability("appium:appPackage", "com.android.chrome");
+        options.setCapability("appium:appActivity", "com.google.android.apps.chrome.Main");
+        options.setCapability("appium:noReset", true);
+
+        URL url = URI.create("http://127.0.0.1:4723/").toURL();
+        driver = new AndroidDriver(url, options);
+    }
+
+    @After
+    public void tearDown(Scenario scenario) throws IOException {
+
+        String path = captureScreenshot(scenario.getName());
+
+        if (scenario.isFailed()) {
+            test.fail("Test Failed",
+                    MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+        } else {
+            test.pass("Test Passed",
+                    MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+        }
+
+        driver.quit();
+        extent.flush();
+    }
+
+    public String captureScreenshot(String name) throws IOException {
+
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        String path = System.getProperty("user.dir")
+                + "/reports/screenshots/"
+                + name + "_" + timeStamp + ".png";
+
+        FileUtils.copyFile(source, new File(path));
+        return path;
+    }
+
+    /*
+    public void switchToWebView() {
+        for (String context : driver.getContextHandles()) {
+            if (context.contains("WEBVIEW")) {
+                driver.context(context);
+                break;
+            }
+        }
+    }
+      */
+    
+    public void switchToWebView() {
+        for (String context : driver.getContextHandles()) {
+            System.out.println("Available context: " + context);
+            if (context.contains("WEBVIEW")) {
+                driver.context(context);
+                System.out.println("Switched to: " + context);
+                break;
+            }
+        }
+    }
+    
+}

@@ -1,0 +1,86 @@
+package Demo;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class BrowserAutomation {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setDeviceName("RMX3853");
+		options.setPlatformVersion("15");
+		options.setAutomationName("UiAutomator2");
+		
+		
+		
+		
+		
+		
+	//	options.setCapability("appium:chromedriverAutodownload", true);
+	//	options.setCapability("appium:skipDeviceInitialization", true);   // ⭐ IMPORTANT
+	//	options.setCapability("appium:disableWindowAnimation", true);
+		
+	//	options.setCapability("appium:ensureWebviewsHavePages", true);
+	//	options.setCapability("appium:nativeWebScreenshot", true);
+	//	options.setCapability("appium:recreateChromeDriverSessions", true);
+		
+
+		options.withBrowserName("Chrome");   
+
+		options.setNoReset(true);
+	//	options.setFullReset(false);
+		
+		// 🔥 VERY IMPORTANT FOR ANDROID 15
+		options.setCapability("appium:chromedriverUseSystemExecutable", true);
+		options.setCapability("appium:skipDeviceInitialization", true);
+		options.setCapability("appium:skipServerInstallation", true);
+	//	options.setCapability("appium:clearDeviceLogsOnStart", false);
+		
+		options.setCapability("appium:chromedriverAutodownload", true);
+
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+		AndroidDriver driver = new AndroidDriver(url, options);
+
+		driver.get("https://www.google.com/");
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
+		WebElement searchBox = wait.until(
+		        ExpectedConditions.elementToBeClickable(By.name("q"))
+		);
+
+		searchBox.sendKeys("Raigad Fort");
+		searchBox.sendKeys(Keys.ENTER);
+
+		Thread.sleep(5000);
+		driver.quit();
+
+		
+	//	driver.terminateApp("com.android.chrome");
+		
+		
+
+         
+         
+         
+         
+
+	}
+
+}

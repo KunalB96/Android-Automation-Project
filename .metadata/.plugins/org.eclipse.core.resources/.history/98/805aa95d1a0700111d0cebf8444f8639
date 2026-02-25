@@ -1,0 +1,72 @@
+package Demo;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class BrowserAutomation {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setDeviceName("RMX3853");
+		options.setPlatformVersion("15");
+		options.setAutomationName("UiAutomator2");
+	
+		//for chrome: com.android.chrome/com.google.android.apps.chrome.Main
+        options.setAppPackage("com.android.chrome");
+        options.setAppActivity("com.google.android.apps.chrome.Main");
+
+        options.setAutoGrantPermissions(true);
+        options.setIgnoreHiddenApiPolicyError(true);
+
+        // ✅ CORRECT for Dialer
+        options.setNoReset(true);
+        options.setFullReset(false);
+        options.setCapability("appium:forceAppLaunch", true);
+
+		options.setCapability("appium:noReset", true);
+		options.setCapability("appium:fullReset", false);
+		options.setCapability("appium:chromedriverAutodownload", true);
+		options.setCapability("appium:shouldTerminateApp", false);
+
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+		AndroidDriver driver = new AndroidDriver(url, options);
+
+		driver.get("https://www.google.com/");
+		
+		// Print all contexts
+		for (String context : driver.getContextHandles()) {
+		    System.out.println("Available Context: " + context);
+		}
+
+		// Switch to WEBVIEW
+		driver.context("WEBVIEW_chrome");
+
+		System.out.println("Current Context: " + driver.getContext());
+
+		
+		WebElement searchBox = driver.findElement(By.cssSelector("textarea[name='q']"));
+		searchBox.sendKeys("Raigad Fort");
+		searchBox.sendKeys(Keys.RETURN);
+
+		Thread.sleep(3000);
+		driver.quit();
+
+         
+         
+         
+         
+
+	}
+
+}

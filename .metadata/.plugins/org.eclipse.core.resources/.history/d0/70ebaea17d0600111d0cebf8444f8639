@@ -1,0 +1,173 @@
+package Demo;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.appium.java_client.AppiumBy.ByAndroidUIAutomator;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class HandleTextCheckBox {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+	    AndroidDriver driver = null;
+
+        
+            UiAutomator2Options options = new UiAutomator2Options();
+   
+       
+            options.setPlatformName("Android");
+            options.setAutomationName("UiAutomator2");
+            options.setDeviceName("RMX3853");
+            options.setPlatformVersion("15");
+
+         //   io.appium.android.apis/io.appium.android.apis.view.Controls1
+         //   options.setAppPackage("io.appium.android.apis");
+         //   options.setAppActivity("io.appium.android.apis.view.Controls1");
+            options.setAppPackage("io.appium.android.apis");
+            options.setAppActivity(".ApiDemos");
+
+            options.setAutoGrantPermissions(true);
+            options.setIgnoreHiddenApiPolicyError(true);
+
+            // ✅ CORRECT for Dialer
+            options.setNoReset(true);
+            options.setFullReset(false);
+            options.setCapability("appium:forceAppLaunch", true);
+            
+            URL url = URI.create("http://127.0.0.1:4723/").toURL();
+            driver = new AndroidDriver(url, options);
+            
+            
+            
+               /*
+            
+            //click on view button
+          //  driver.findElements(By.id("android:id/text1")).get(10).click();
+           
+            
+            //click on controls button
+           // driver.findElements(By.id("android:id/text1")).get(4).click();
+           
+
+            //click on Light theme button
+         //    driver.findElements(By.id("android:id/text1")).get(0).click();
+      
+            
+            //enter text in textbox
+            driver.findElement(By.id("io.appium.android.apis:id/edit")).sendKeys("Dhurandar");
+
+            //Click on checkBox1
+            driver.findElement(By.id("io.appium.android.apis:id/check1")).click();
+            
+            //Click On Radio Button2
+            driver.findElement(By.id("io.appium.android.apis:id/radio2")).click();
+            
+            //click on Star option
+            driver.findElement(By.id("io.appium.android.apis:id/star")).click();
+            
+            //click on toggle on option
+            driver.findElement(By.id("io.appium.android.apis:id/toggle1")).click();
+
+           //select value from DropDown
+           // Open spinner
+            driver.findElement(By.id("io.appium.android.apis:id/spinner1")).click();
+
+            // Select Earth
+            driver.findElement(By.xpath("//android.widget.TextView[@text='Earth']")).click();
+            
+                 */
+            
+            Thread.sleep(5000);
+            System.out.println("API Demos app launched");
+
+            
+         // Views
+            driver.findElement(By.xpath("//android.widget.TextView[@text='Views']")).click();
+
+            // Controls
+            driver.findElement(By.xpath("//android.widget.TextView[@text='Controls']")).click();
+
+            // Light Theme
+            driver.findElement(By.xpath("//android.widget.TextView[@text='1. Light Theme']")).click();
+
+            // Enter text
+            driver.findElement(By.id("io.appium.android.apis:id/edit"))
+                  .sendKeys("Dhurandar");
+
+            // Checkbox
+            driver.findElement(By.id("io.appium.android.apis:id/check1")).click();
+
+            // Radio button
+            driver.findElement(By.id("io.appium.android.apis:id/radio2")).click();
+
+            // Star
+            driver.findElement(By.id("io.appium.android.apis:id/star")).click();
+
+            // Toggle
+            driver.findElement(By.id("io.appium.android.apis:id/toggle1")).click();
+
+         // Open spinner
+              /*
+            driver.findElement(By.id("io.appium.android.apis:id/spinner1")).click();
+
+            // Wait for dropdown item
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+            wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//android.widget.TextView[@text='Earth']")
+                )
+            );
+
+            // Select Earth
+            driver.findElement(By.xpath("//android.widget.TextView[@text='Earth']")).click();
+
+                        */
+            
+            
+            
+               /*
+                *  //Method 2 to select dropdown1
+            driver.findElement(By.id("io.appium.android.apis:id/spinner1")).click();
+
+            driver.findElement(
+                ByAndroidUIAutomator.androidUIAutomator("new UiSelector().text(\"Earth\")")
+            ).click();
+            
+               */
+            
+            
+            //Method 2 to select dropdown
+            WebElement dropdown = driver.findElement(By.xpath("//android.widget.TextView[@resource-id=\"android:id/text1\"]"));
+            dropdown.click();
+            
+            WebElement earthOption = driver.findElement(
+            	    By.xpath("//android.widget.CheckedTextView[@resource-id='android:id/text1' and @text='Earth']")
+            	);
+            	earthOption.click();
+
+            
+            
+            
+
+            Thread.sleep(5000);
+           driver.terminateApp("io.appium.android.apis");
+            
+     
+        
+        
+      }
+  
+}

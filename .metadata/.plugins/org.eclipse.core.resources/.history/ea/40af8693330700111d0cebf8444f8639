@@ -1,0 +1,65 @@
+package Demo;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class DrawingDemo {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+		
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setDeviceName("RMX3853");
+		options.setPlatformVersion("15");
+		options.setAutomationName("UiAutomator2");
+		
+		
+		options.setAppPackage("com.saucelabs.mydemoapp.android");
+		options.setAppActivity("com.saucelabs.mydemoapp.android.view.activities.MainActivity");
+
+		options.setCapability("appium:noReset", true);
+		options.setCapability("appium:fullReset", false);
+		options.setCapability("appium:dontStopAppOnReset", true);
+		options.setCapability("appium:skipDeviceInitialization", true);
+		options.setCapability("appium:skipServerInstallation", true);
+		options.setCapability("appium:chromedriverAutodownload", true);
+		
+
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+		AndroidDriver driver = new AndroidDriver(url, options);
+		
+		Thread.sleep(3000);
+		System.out.println("App lauched Successfully");
+		
+		//find menu button 
+		WebElement menu =  driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"View menu\"]"));
+		menu.click(); //perform click action on menu button
+		
+		//find drawing panel 
+		WebElement drawingPanel = driver.findElement(By.xpath("//android.webkit.WebView"));
+   ////android.widget.TextView[@content-desc="Login Menu Item"]
+		
+		
+		
+		
+		
+		
+		
+		
+		Thread.sleep(3000);
+		driver.terminateApp("com.saucelabs.mydemoapp.android");
+		
+		//com.saucelabs.mydemoapp.android/com.saucelabs.mydemoapp.android.view.activities.MainActivity
+
+	}
+
+}

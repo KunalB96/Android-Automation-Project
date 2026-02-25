@@ -1,0 +1,65 @@
+package tests;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class BaseClass {
+	
+	AndroidDriver driver;
+	
+	@BeforeTest
+	public void setup() throws MalformedURLException
+	{
+		
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setDeviceName("RMX3853");
+		options.setPlatformVersion("15");
+		options.setAutomationName("UiAutomator2");
+		
+		
+		options.setAppPackage("com.android.chrome");
+		options.setAppActivity("com.google.android.apps.chrome.Main");
+		
+		options.setCapability("appium:newCommandtimeout", 60);
+
+		options.setCapability("appium:noReset", true);
+		options.setCapability("appium:fullReset", false);
+		options.setCapability("appium:dontStopAppOnReset", true);
+		options.setCapability("appium:skipDeviceInitialization", true);
+		options.setCapability("appium:skipServerInstallation", true);
+		options.setCapability("appium:chromedriverAutodownload", true);
+		
+
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+		driver = new AndroidDriver(url, options);
+		
+	}
+	
+	@Test
+	public void sampleTest()
+	{
+		driver.get("https://www.google.com");
+	}
+	
+	
+	@AfterTest
+	public void teardown() throws InterruptedException
+	{
+		Thread.sleep(3000);
+		driver.close();
+		driver.quit();
+	//	driver.terminateApp("com.android.chrome");
+		driver.terminateApp(driver.getCurrentPackage());
+	}
+
+}

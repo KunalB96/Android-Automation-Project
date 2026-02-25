@@ -1,0 +1,123 @@
+package tests;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Test;
+
+import pages.GoogleSearchPage;
+
+public class SearchTest extends BaseClass {
+	
+	
+	@Test
+	public void Test1() throws InterruptedException
+	{
+	
+		/*
+	  	driver.get("https://www.google.com");
+	  	
+	  	try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		
+			e.printStackTrace();
+		}
+
+	  	for (String context : driver.getContextHandles()) {
+	  	    if (context.contains("WEBVIEW")) {
+	  	        driver.context(context);
+	  	        break;
+	  	    }
+	  	}
+		
+		
+	  	//find search box web element
+		WebElement searchBox = driver.findElement(By.cssSelector("textarea[name='q']"));
+		searchBox.sendKeys("Raigad Fort");
+		searchBox.sendKeys(Keys.RETURN);
+		
+		  */
+		
+		
+	//	driver.get("https://www.google.com");
+
+		/*
+		Thread.sleep(3000);
+
+		// Switch to WEBVIEW
+		for (String context : driver.getContextHandles()) {
+		    if (context.contains("WEBVIEW")) {
+		        driver.context(context);
+		        break;
+		    }
+		}
+		  */
+		
+		test = extent.createTest("Google Search Test");
+		  
+	    driver.get("https://www.google.com");
+		  
+	    test.info("Opened Google URL");
+
+	    Thread.sleep(5000);
+
+	    switchToWebView();
+	    test.info("Switched to WebView context");
+	        
+		GoogleSearchPage pg = new GoogleSearchPage(driver);
+		
+		pg.EnterSearchData("Chatrapati Shivaji Maharaj");
+		
+		pg.PressEnterKeyonSearchBox();
+		
+	    test.pass("Pressed Enter key");
+		
+		
+	}
+	
+	
+	
+	@Test(enabled=true)
+	public void Test2() throws InterruptedException
+	{
+	
+		
+		// driver.get("https://www.google.com");
+
+		/*
+		Thread.sleep(3000);
+
+		// Switch to WEBVIEW
+		for (String context : driver.getContextHandles()) {
+		    if (context.contains("WEBVIEW")) {
+		        driver.context(context);
+		        break;
+		    }
+		}
+		*/
+		
+		test = extent.createTest("Google Search Test");
+		  
+	    driver.get("https://www.google.com");
+		  
+	    test.info("Opened Google URL");
+
+	    Thread.sleep(5000);
+
+	    switchToWebView();
+	    test.info("Switched to WebView context");
+	        
+		GoogleSearchPage pg = new GoogleSearchPage(driver);
+		
+		pg.EnterSearchData("Chatrapati Shivaji Maharaj");
+		
+		pg.PressEnterKeyonSearchBox();
+		
+	    test.pass("Pressed Enter key");
+		
+		
+	}
+	
+
+}

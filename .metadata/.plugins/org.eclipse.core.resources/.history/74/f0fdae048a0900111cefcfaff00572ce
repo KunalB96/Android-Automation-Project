@@ -1,0 +1,46 @@
+package StepsDefination;
+
+import pages.GoogleSearchPage;
+import tests.BaseClass;
+import tests.CucumberBaseClass;
+import io.cucumber.java.en.*;
+
+public class GoggleSearchSteps extends CucumberBaseClass {
+
+    GoogleSearchPage page;
+
+    @Given("Google page is open in browser")
+    public void google_page_is_open_in_browser() {
+
+        driver.get("https://www.google.com");
+        switchToWebView();
+        test.info("Opened Google and switched to WebView");
+
+        page = new GoogleSearchPage(driver);
+    }
+
+    @When("the search phrase {string} is entered")
+    public void the_search_phrase_is_entered(String searchData) {
+
+        page.EnterSearchData(searchData);
+        test.info("Entered search data: " + searchData);
+    }
+
+    @When("enter Key is pressed")
+    public void enter_key_is_pressed() {
+
+        page.PressEnterKeyonSearchBox();
+        test.info("Pressed Enter key");
+    }
+
+    @Then("results for {string} are shown")
+    public void results_for_are_shown(String text) {
+
+        // Simple validation example
+        if (driver.getPageSource().contains(text)) {
+            test.pass("Results displayed successfully");
+        } else {
+            test.fail("Results not found");
+        }
+    }
+}

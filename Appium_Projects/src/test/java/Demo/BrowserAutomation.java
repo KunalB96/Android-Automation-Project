@@ -1,0 +1,81 @@
+package Demo;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class BrowserAutomation {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		
+		UiAutomator2Options options = new UiAutomator2Options();
+
+		options.setPlatformName("Android");
+		options.setDeviceName("RMX3853");
+		options.setPlatformVersion("15");
+		options.setAutomationName("UiAutomator2");
+		
+		
+		options.setAppPackage("com.android.chrome");
+		options.setAppActivity("com.google.android.apps.chrome.Main");
+		
+		options.setCapability("appium:newCommandtimeout", 60);
+
+		options.setCapability("appium:noReset", true);
+		options.setCapability("appium:fullReset", false);
+		options.setCapability("appium:dontStopAppOnReset", true);
+		options.setCapability("appium:skipDeviceInitialization", true);
+		options.setCapability("appium:skipServerInstallation", true);
+		options.setCapability("appium:chromedriverAutodownload", true);
+		
+
+		URL url = URI.create("http://127.0.0.1:4723/").toURL();
+		AndroidDriver driver = new AndroidDriver(url, options);
+
+		driver.get("https://www.google.com/");
+
+		Thread.sleep(3000);
+
+		// Print available contexts
+		System.out.println(driver.getContextHandles());
+
+		// Switch to WEBVIEW
+		for (String context : driver.getContextHandles()) {
+		    if (context.contains("WEBVIEW")) {
+		        driver.context(context);
+		        break;
+		    }
+		}
+
+		System.out.println("After switch: " + driver.getContext());
+		
+		Thread.sleep(2000);
+		WebElement searchBox = driver.findElement(By.cssSelector("textarea[name='q']"));
+		searchBox.sendKeys("Raigad Fort");
+		searchBox.sendKeys(Keys.RETURN);
+		
+		
+		Thread.sleep(3000);
+	//	driver.quit();
+
+		
+		driver.terminateApp("com.android.chrome");
+	
+		
+
+         
+         
+         
+         
+
+	}
+
+}
